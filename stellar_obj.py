@@ -1,25 +1,31 @@
 import math
 import random
 
-from stellar_data import STAR_CLASS, SPECIAL_NAMES
 from util import distance
 
 
 class Star:
-    def __init__(self, HDC, HIP, rectascension, declination, distance,
-                 brightness, color, name=None):
-        if name is None:
-            name = self.special_names(HIP)
-        self.hdc = HDC
+    def __init__(self, HIP, rectascension, declination, distance, name=None, planets=None, stellar_class=None, **excess):
         self.hip = HIP
         self.name = name if name else "HIP " + str(HIP)
         self.rect_ascension = rectascension
         self.declination = declination
         self.distance = distance
-        self._stellar_class = STAR_CLASS.get(str(self.hip), "G5")
+        self._stellar_class = stellar_class
 
-        self._planets = []
+        self._planets = [] if planets is None else [Planet(self, **planet) for planet in planets]
         self._closest_stars = None
+
+    def to_json(self):
+        return {
+            "HIP": self.hip,
+            "name": self.name,
+            "rectascension": self.rect_ascension,
+            "declination": self.declination,
+            "distance": self.distance,
+            "stellar_class": self._stellar_class,
+            "planets": [p.to_json() for p in self.planets]
+        }
 
     @property
     def stellar_class(self):
@@ -162,9 +168,6 @@ class Star:
     def __repr__(self):
         return "<Star ({})>".format(self.name)
 
-    def special_names(self, HIP):
-        return SPECIAL_NAMES.get(HIP)
-
 
 class Planet:
     def __init__(self, star, orbital_distance, population=0, name=None, founding_year=None):
@@ -174,6 +177,14 @@ class Planet:
         self._name = name
         self.population = population
         self.star = star
+
+    def to_json(self):
+        return {
+            "orbital_distance": self.orbital_distance,
+            "population": self.population,
+            "name": self.name,
+            "founding_year": self.founding_year
+        }
 
     @property
     def habitable(self):

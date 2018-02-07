@@ -1,3 +1,4 @@
+import csv
 import json
 import random
 from collections import defaultdict
@@ -131,16 +132,15 @@ def get_star_name():
         name += char
 
 
-SOL = Star(0, 0, 0, 0, 0, 0, 0, name="Sol")
-SOL._stellar_class = "G8V"
+SOL = Star(0, 0, 0, 0, name="Sol", stellar_class="G8")
 SOL._planets = [Planet(SOL, 0.72, 1e9, "Venus", 0), Planet(SOL, 1, 5e9, "Earth", 0), Planet(SOL, 1.6, 3e9, "Mars", 100),
                 Planet(SOL, 2.5, 2e9, "Belt", 100),
                 Planet(SOL, 5.2, 4e9, "Jupiter", 125), Planet(SOL, 9.5, 2e9, "Saturn", 130)]
 STARMAP = [SOL]
 
 for star in RAW_STARMAP:
-    if abs(star["distance"]) > 750:
+    if abs(star["distance"]) > 750 or str(star["HIP"]) not in STAR_CLASS:
         continue
-    s = Star(**star)
+    s = Star(name=SPECIAL_NAMES.get(star['HIP']), stellar_class=STAR_CLASS[str(star["HIP"])], **star)
     x, y, z = s.position
     STARMAP.append(s)
