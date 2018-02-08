@@ -139,7 +139,8 @@ SOL._planets = [Planet(SOL, 0.72, 1e9, "Venus", 0), Planet(SOL, 1, 5e9, "Earth",
 STARMAP = [SOL]
 
 for star in RAW_STARMAP:
-    if abs(star["distance"]) > 750 or str(star["HIP"]) not in STAR_CLASS:
+    # if abs(star["distance"]) > 750 or str(star["HIP"]) not in STAR_CLASS:
+    if str(star["HIP"]) not in STAR_CLASS:
         continue
     s = Star(name=SPECIAL_NAMES.get(star['HIP']), stellar_class=STAR_CLASS[str(star["HIP"])], **star)
     x, y, z = s.position

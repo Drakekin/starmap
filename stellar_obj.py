@@ -154,11 +154,11 @@ class Star:
 
     @property
     def position(self):
-        x = math.sin(self.rect_ascension / 180 * math.pi) * math.cos(
+        x = math.sin(self.rect_ascension / 12 * math.pi) * math.cos(
             self.declination / 180 * math.pi) * self.distance
-        y = math.sin(self.rect_ascension / 180 * math.pi) * math.sin(
+        y = math.sin(self.rect_ascension / 12 * math.pi) * math.sin(
             self.declination / 180 * math.pi) * self.distance
-        z = math.cos(self.rect_ascension / 180 * math.pi) * self.distance
+        z = math.cos(self.rect_ascension / 12 * math.pi) * self.distance
 
         return x, y, z
 

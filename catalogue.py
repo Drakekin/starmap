@@ -36,7 +36,7 @@ for _ in range(170):
     CURRENT_YEAR += 1
 
 output = [star.to_json() for star in STARMAP]
-with open("colony_map.json", "w") as out_file:
+with open("colony_map2.json", "w") as out_file:
     json.dump(output, out_file)
 
 print()

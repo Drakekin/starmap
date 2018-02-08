@@ -42,3 +42,8 @@ def distance(p1, p2):
     ax, ay, az = p1
     bx, by, bz = p2
     return math.sqrt((ax - bx) ** 2 + (ay - by) ** 2 + (az - bz) ** 2)
+
+
+def filter_to_inhabited(starmap):
+    distance = max(abs(star.distance) for star in starmap if any(planet.population > 0 for planet in star.planets))
+    return [star for star in starmap if abs(star.distance) < distance * 1.1]
